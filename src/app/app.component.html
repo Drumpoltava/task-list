@@ -2,14 +2,19 @@
 
 <main>
   <ul id="users">
-
-    <li>
-      <app-user
-        [user]="users[1]"
-        (select)="onSelectUser($event)"/>
-    </li>
-
+    @for (user of users; track user.id) {
+      <li>
+        <app-user
+          [user]="user"
+          [selected]="user.id === selectedUserId"
+          (select)="onSelectUser($event)"/>
+      </li>
+    }
   </ul>
-  <app-tasks [name]="selectedUsers ? selectedUsers.name : ''"/>
+  @if (selectedUsers) {
+    <app-tasks [userId]="selectedUsers.id" [name]="selectedUsers.name"/>
+  } @else {
+    <p id="fallback">Select a user to see their tasks!</p>
+  }
 </main>
 
